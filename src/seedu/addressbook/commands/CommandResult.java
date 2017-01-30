@@ -29,7 +29,7 @@ public class CommandResult {
     /**
      * Returns the feedback message to be shown to the user
      */
-    public String showFeedback() {
+    public String getFeedback() {
     	return feedbackToUser;
     }
     

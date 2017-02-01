@@ -16,10 +16,10 @@ import java.util.Scanner;
  * Text UI of the application.
  */
 public class TextUi {
-
-    /** A decorative prefix added to the beginning of lines printed by AddressBook */
+	
+	/** A decorative prefix added to the beginning of lines printed by AddressBook */
     private static final String LINE_PREFIX = "|| ";
-
+    
     /** A platform independent line separator. */
     private static final String LS = System.lineSeparator();
 
@@ -37,6 +37,7 @@ public class TextUi {
 
     private final Scanner in;
     private final PrintStream out;
+    private Formatter formatUi;
 
     public TextUi() {
         this(System.in, System.out);
@@ -83,39 +84,27 @@ public class TextUi {
             fullInputLine = in.nextLine();
         }
 
-        showToUser("[Command entered:" + fullInputLine + "]");
+        out.print(new Formatter().showUserCommand(fullInputLine));
         return fullInputLine;
     }
 
 
     public void showWelcomeMessage(String version, String storageFilePath) {
         String storageFileInfo = String.format(MESSAGE_USING_STORAGE_FILE, storageFilePath);
-        showToUser(
-                DIVIDER,
-                DIVIDER,
-                MESSAGE_WELCOME,
-                version,
-                MESSAGE_PROGRAM_LAUNCH_ARGS_USAGE,
-                storageFileInfo,
-                DIVIDER);
+        out.print(new Formatter().showWelcomeMessage(version, storageFileInfo));
+    
     }
 
     public void showGoodbyeMessage() {
-        showToUser(MESSAGE_GOODBYE, DIVIDER, DIVIDER);
+        out.print(new Formatter().showGoodbyeMessage());
     }
 
 
     public void showInitFailedMessage() {
-        showToUser(MESSAGE_INIT_FAILED, DIVIDER, DIVIDER);
+    	out.print(new Formatter().showInitFailedMessage());  
     }
 
-    /** Shows message(s) to the user */
-    public void showToUser(String... message) {
-        for (String m : message) {
-            out.println(LINE_PREFIX + m.replace("\n", LS + LINE_PREFIX));
-        }
-    }
-
+  
     /**
      * Shows the result of a command execution to the user. Includes additional formatting to demarcate different
      * command execution segments.
@@ -125,7 +114,12 @@ public class TextUi {
         if (resultPersons.isPresent()) {
             showPersonListView(resultPersons.get());
         }
-        showToUser(result.feedbackToUser, DIVIDER);
+        out.print(new Formatter().showResultToUser(result.feedbackToUser));
+ 
+    }
+    
+    public void showToUser(String ...message){
+    	out.print(new Formatter().showToUser(message));
     }
 
     /**

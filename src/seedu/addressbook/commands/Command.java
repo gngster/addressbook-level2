@@ -2,6 +2,7 @@ package seedu.addressbook.commands;
 
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.AddressBook;
+import seedu.addressbook.data.person.Printable;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 
 import java.util.List;
@@ -65,4 +66,16 @@ public abstract class Command {
     public void setTargetIndex(int targetIndex) {
         this.targetIndex = targetIndex;
     }
+    
+    /**
+     * Returns a concatenated version of the printable strings of each object.
+     */
+   String getPrintableString(Printable... printables){
+	   String printableString = "";
+	   for(Printable p: printables) {
+		   printableString += p;
+	   }
+	   return printableString;
+   }
+
 }

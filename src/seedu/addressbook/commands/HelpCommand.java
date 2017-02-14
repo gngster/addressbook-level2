@@ -12,7 +12,10 @@ public class HelpCommand extends Command {
             + "Example: " + COMMAND_WORD;
 
     public HelpCommand() {}
-
+    
+    public boolean isMutating() {
+    	return false;
+    }
     @Override
     public CommandResult execute() {
         return new CommandResult(

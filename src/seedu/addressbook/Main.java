@@ -76,7 +76,8 @@ public class Main {
         System.exit(0);
     }
 
-    /** Reads the user command and executes it, until the user issues the exit command.  */
+    /** Reads the user command and executes it, until the user issues the exit command.  
+     *  */
     private void runCommandLoopUntilExitCommand() {
         Command command;
         do {
@@ -102,17 +103,22 @@ public class Main {
      *
      * @param command user command
      * @return result of the command
+     * 
      */
-    private CommandResult executeCommand(Command command)  {
+    private CommandResult executeCommand(Command command) {
         try {
             command.setData(addressBook, lastShownList);
             CommandResult result = command.execute();
-            storage.save(addressBook);
+            boolean toSave = command.isMutating();
+            if(toSave == true) {
+            	storage.save(addressBook);
+            }
             return result;
         } catch (Exception e) {
             ui.showToUser(e.getMessage());
             throw new RuntimeException(e);
         }
+        
     }
 
     /**
